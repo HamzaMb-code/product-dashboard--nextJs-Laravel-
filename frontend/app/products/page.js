@@ -46,7 +46,10 @@
     const [reloadKey, setReloadKey] = useState(0);
     const { isAuthenticated } = useRequireAuth();
     const toast = useToast();
-    const IMAGE_URL = process.env.NEXT_PUBLIC_BACKEND_URL?.replace("/api", "/storage/") || "";
+    const IMAGE_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL ?? ""}`.replace(
+      /\/api$/,
+      "/storage/",
+    );
 
     useEffect(() => {
       if (!isAuthenticated) return;
