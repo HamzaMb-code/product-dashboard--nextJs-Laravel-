@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
+use Cloudinary\Cloudinary;
+use Cloudinary\Configuration\Configuration;
 
 
 class ProductController extends Controller
@@ -38,7 +40,11 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
+        //     dd(
+        //     $request->hasFile('banner_image'),
+        //     $request->file('banner_image'),
+        //     $request->all()
+        // );
         $data = $request->validate([
             "name" => "required|string|max:255",
             "description" => "nullable|string",
@@ -46,10 +52,36 @@ class ProductController extends Controller
             "banner_image" => "nullable|image|mimes:jpg,jpeg,png|max:2048"
         ]);
 
+        // if ($request->hasFile('banner_image')) {
+
+        //     Configuration::instance([
+        //         'cloud' => [
+        //             'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+        //             'api_key'    => env('CLOUDINARY_API_KEY'),
+        //             'api_secret' => env('CLOUDINARY_API_SECRET'),
+        //         ],
+        //         'url' => [
+        //             'secure' => true,
+        //         ],
+        //     ]);
+
+        //     $cloudinary = new Cloudinary();
+
+        //     $upload = $cloudinary->uploadApi()->upload(
+        //         $request->file('banner_image')->getRealPath(),
+        //         [
+        //             'folder' => 'products',
+        //         ]
+        //     );
+
+        //     $data['banner_image'] = $upload['secure_url'];
+        // }
         if ($request->hasFile("banner_image")) {
+
             $image = $request->file("banner_image")->store("products", "public");
+
             $data["banner_image"] = $image;
-        };
+        }
 
         $data["user_id"] = $request->user()->id;
 

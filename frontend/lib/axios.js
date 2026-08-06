@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://product-dashboard-api-68cw.onrender.com/api",
+  baseURL: process.env.BACKEND_URL,
   headers: {
     // "Content-Type": "application/json",
     Accept: "application/json",

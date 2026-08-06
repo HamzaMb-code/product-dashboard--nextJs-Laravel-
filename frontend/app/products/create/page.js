@@ -57,7 +57,7 @@ function CreateProduct() {
         data.append("banner_image", formData.banner_image);
       }
 
-      await api.post("/products", data);
+     await api.post("/products", data);
       toast.success("Product created successfully.");
       router.push("/products");
     } catch (error) {
